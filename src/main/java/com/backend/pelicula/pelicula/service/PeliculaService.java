@@ -3,7 +3,9 @@ package com.backend.pelicula.pelicula.service;
 import com.backend.pelicula.pelicula.domain.Pelicula;
 import com.backend.pelicula.pelicula.dto.PeliculaDTO;
 import com.backend.pelicula.pelicula.repository.PeliculaRepository;
+import com.backend.pelicula.pelicula.repository.PeliculaSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -39,9 +41,15 @@ public class PeliculaService {
         return peliculaDTO;
     }
 
-    public List<PeliculaDTO> findAll() {
-        return peliculaRepository.findAll().stream().map(
+    public List<PeliculaDTO> findAll(String titulo, String genero) {
+
+        Specification<Pelicula> spec = Specification
+                .where(PeliculaSpecifications.titleContains(titulo)
+                        .and(PeliculaSpecifications.genreEquals(genero)));
+
+        return peliculaRepository.findAll(spec).stream().map(
                 p -> new PeliculaDTO(
+                        p.getId(),
                         p.getTitulo(),
                         p.getFechaSalida(),
                         p.getPrecio(),
@@ -63,6 +71,7 @@ public class PeliculaService {
         Pelicula pelicula = peliculaOptional.get();
 
         return new PeliculaDTO(
+                pelicula.getId(),
                 pelicula.getTitulo(),
                 pelicula.getFechaSalida(),
                 pelicula.getPrecio(),

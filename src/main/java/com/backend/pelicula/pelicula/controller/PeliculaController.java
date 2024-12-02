@@ -25,7 +25,10 @@ public class PeliculaController {
     }
 
     @GetMapping
-    public List<PeliculaDTO> getPelicula() throws Exception {
-        return peliculaService.findAll();
+    public List<PeliculaDTO> getPelicula(
+            @RequestParam(required = false) String titulo,
+            @RequestParam(required = false) String genero
+    ) throws Exception {
+        return peliculaService.findAll(titulo, genero);
     }
 }

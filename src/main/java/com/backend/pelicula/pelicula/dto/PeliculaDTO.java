@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class PeliculaDTO {
 
+    private Long id;
+
     private String titulo;
 
     private LocalDate fechaSalida;
