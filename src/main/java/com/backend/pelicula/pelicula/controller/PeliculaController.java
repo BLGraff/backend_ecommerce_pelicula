@@ -31,4 +31,9 @@ public class PeliculaController {
     ) throws Exception {
         return peliculaService.findAll(titulo, genero);
     }
+
+    @PutMapping("/{id}")
+    public PeliculaDTO edit(@PathVariable Long id, @RequestBody PeliculaDTO peliculaDTO) throws Exception {
+        return peliculaService.update(id, peliculaDTO);
+    }
 }

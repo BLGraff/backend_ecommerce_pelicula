@@ -84,25 +84,22 @@ public class PeliculaService {
         );
     }
 
-    public PeliculaDTO update(Long id, PeliculaDTO peliculaDTO) {
-        //buscar la pelicula y sobre escribir los campos necesarios.
-        //por ejemplo los participantes no.
+    public PeliculaDTO update(Long id, PeliculaDTO peliculaDTO) throws Exception {
+        // Buscar la película por ID
+        Pelicula p = peliculaRepository.findById(id).orElseThrow(() -> new Exception("No se encontró la película con ID: " + id));
 
-        Pelicula pelicula = new Pelicula(
-                id,
-                peliculaDTO.getTitulo(),
-                peliculaDTO.getFechaSalida(),
-                peliculaDTO.getPrecio(),
-                peliculaDTO.getImagen(),
-                peliculaDTO.getRating(),
-                peliculaDTO.getFormato(),
-                peliculaDTO.getCondicion(),
-                peliculaDTO.getGenero(),
-                peliculaDTO.getResumen(),
-                new ArrayList<>()
-        );
+        // Actualizar los campos de la película
+        p.setTitulo(peliculaDTO.getTitulo());
 
-        peliculaRepository.save((pelicula));
+        p.setPrecio(peliculaDTO.getPrecio());
+        p.setImagen(peliculaDTO.getImagen());
+        p.setFormato(peliculaDTO.getFormato());
+        p.setCondicion(peliculaDTO.getCondicion());
+        p.setGenero(peliculaDTO.getGenero());
+        p.setResumen(peliculaDTO.getResumen());
+
+        // Guardar los cambios en la base de datos
+        peliculaRepository.save(p);
 
         return peliculaDTO;
     }
@@ -110,20 +107,5 @@ public class PeliculaService {
     public void delete(Long id) {
         peliculaRepository.deleteById(id);
     }
-
-/*
-     public Optional<Pelicula> findById(
-            @NotNull(message = "Debe ingresar un id pelicula")
-            @Positive(message = "id pelicula no puede ser negativo")
-            long id
-    ) throws Exception { //PeliculaNotFoundException
-        Optional<Pelicula> pelicula = Optional.ofNullable(
-                peliculaRepository.findById(id).orElseThrow(() -> new RuntimeException("NO existe la pelicula"))
-        );
-
-
-
-        return pelicula;
-} */
 
 }
