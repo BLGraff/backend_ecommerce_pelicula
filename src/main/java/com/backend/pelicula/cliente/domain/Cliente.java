@@ -1,24 +1,24 @@
-package com.backend.pelicula.usuario.domain;
+package com.backend.pelicula.cliente.domain;
 
+import com.backend.pelicula.comentario.domain.Comentario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "usuario")
+@Table(name = "cliente")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Usuario {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String usuario;
-
-    private String password;
 
     private String email;
 
@@ -28,6 +28,7 @@ public class Usuario {
 
     private String telefono;
 
-    private Rol rol;
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Comentario> comentarios = new ArrayList<>();
 
 }

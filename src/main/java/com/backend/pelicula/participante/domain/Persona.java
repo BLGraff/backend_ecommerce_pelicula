@@ -1,4 +1,4 @@
-package com.backend.pelicula.pelicula.domain;
+package com.backend.pelicula.participante.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -20,6 +20,8 @@ public class PeliculaService {
 
     @Autowired
     private PeliculaRepository peliculaRepository;
+    @Autowired
+    private PeliculaPublisher peliculaPublisher;
 
     public PeliculaDTO save(PeliculaDTO peliculaDTO) {
         Pelicula pelicula = new Pelicula(
@@ -36,7 +38,9 @@ public class PeliculaService {
                 new ArrayList<>()
         );
 
-        peliculaRepository.save(pelicula);
+        Pelicula peliRepo = peliculaRepository.save(pelicula);
+
+        peliculaPublisher.sendPelicula("ADD", peliRepo);
 
         return peliculaDTO;
     }
@@ -98,14 +102,23 @@ public class PeliculaService {
         p.setGenero(peliculaDTO.getGenero());
         p.setResumen(peliculaDTO.getResumen());
 
-        // Guardar los cambios en la base de datos
-        peliculaRepository.save(p);
+        Pelicula peliRepo = peliculaRepository.save(p);
+
+        peliculaPublisher.sendPelicula("EDIT", peliRepo);
 
         return peliculaDTO;
     }
 
     public void delete(Long id) {
+
+        Optional<Pelicula> peliculaOptional = peliculaRepository.findById(id);
+        if (peliculaOptional.isEmpty()) {
+            throw new RuntimeException("Id invalido");
+        }
+
         peliculaRepository.deleteById(id);
+
+        peliculaPublisher.sendPelicula("DELETE", peliculaOptional.get());
     }
 
 }

@@ -1,7 +1,7 @@
 package com.backend.pelicula.comentario.domain;
 
+import com.backend.pelicula.cliente.domain.Cliente;
 import com.backend.pelicula.pelicula.domain.Pelicula;
-import com.backend.pelicula.usuario.domain.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,11 +27,11 @@ public class Comentario {
     private int calificacion;
 
     @ManyToOne
-    @JoinColumn(name="pelicula_id")
+    @JoinColumn(name = "pelicula_id")
     private Pelicula pelicula;
 
     @ManyToOne
-    @JoinColumn(name="cliente_id")
-    private Usuario cliente;
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
 }

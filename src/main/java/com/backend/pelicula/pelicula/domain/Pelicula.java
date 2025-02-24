@@ -1,5 +1,6 @@
 package com.backend.pelicula.pelicula.domain;
 
+import com.backend.pelicula.participante.domain.Participacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
