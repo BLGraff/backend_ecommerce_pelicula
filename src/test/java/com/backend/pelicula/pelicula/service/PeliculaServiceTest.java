@@ -40,8 +40,8 @@ public class PeliculaServiceTest {
     void setUp() {
         LocalDate fechaSalida = LocalDate.of(1997, 12, 19);  // Definir la fecha correctamente
 
-        pelicula = new Pelicula(1L, "Lo que el agua se llevó", fechaSalida, 2000.0, "imagen.jpg", 5, Formato.CD, Condicion.NUEVO, Genero.DRAMA, "Lo que el agua se llevó", List.of());
-        peliculaDTO = new PeliculaDTO(1L, "Titanic", fechaSalida, 6500.0, "imagen.jpg", 5, Formato.DVD, Condicion.USADO, Genero.DRAMA, "Resumen Titanic");
+        pelicula = new Pelicula(1L, "Titanic", fechaSalida, 2000.0, "imagen.jpg", 5, Formato.CD, Condicion.USADO, Genero.DRAMA, "Resumen", List.of());
+        peliculaDTO = new PeliculaDTO(1L, "Titanic", fechaSalida, 2000.0, "imagen.jpg", 5, Formato.CD, Condicion.USADO, Genero.DRAMA, "Resumen");
     }
 
     @Test
