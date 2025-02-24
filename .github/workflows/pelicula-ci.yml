@@ -6,35 +6,39 @@ on:
   pull_request:
     branches: [ main, develop ]  # También en cada PR a estas ramas
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-      services:
-        postgres:
-          image: postgres:latest
-          env:
-            POSTGRES_USER: user
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: testdb
-          ports:
-            - 5432:5432
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
 
-      steps:
-        - name: Checkout del código
-          uses: actions/checkout@v3
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
 
-        - name: Configurar JDK 17
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'temurin'
-            java-version: '17'
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-        - name: Configurar PostgreSQL en application.properties
-          run: |
-            echo "spring.datasource.url=jdbc:postgresql://localhost:5432/testdb" > src/main/resources/application.properties
-            echo "spring.datasource.username=user" >> src/main/resources/application.properties
-            echo "spring.datasource.password=password" >> src/main/resources/application.properties
+      - name: Esperar a que PostgreSQL esté listo
+        run: sleep 10s
 
-        - name: Ejecutar Tests
-          run: mvn clean test
+      - name: Configurar PostgreSQL en application.properties
+        run: |
+          echo "spring.datasource.url=jdbc:postgresql://localhost:5432/testdb" > src/main/resources/application.properties
+          echo "spring.datasource.username=user" >> src/main/resources/application.properties
+          echo "spring.datasource.password=password" >> src/main/resources/application.properties
+          echo "spring.datasource.driver-class-name=org.postgresql.Driver" >> src/main/resources/application.properties
+
+      - name: Ejecutar Tests
+        run: mvn clean test
