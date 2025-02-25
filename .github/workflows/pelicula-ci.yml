@@ -1,16 +1,24 @@
-name: CI
+name: TEST Pelicula - CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, develop ]
   pull_request:
-    branches:
-      - main
+    branches: [ main, develop ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout del código
@@ -22,8 +30,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Construir y Testear
-        run: mvn clean test
+      - name: Esperar a que PostgreSQL esté listo
+        run: sleep 10s
 
-      - name: Compilar la aplicación
-        run: mvn clean package
+      - name: Configurar PostgreSQL en application.properties
+        run: |
+          echo "spring.datasource.url=jdbc:postgresql://localhost:5432/testdb" > src/main/resources/application.properties
+          echo "spring.datasource.username=user" >> src/main/resources/application.properties
+          echo "spring.datasource.password=password" >> src/main/resources/application.properties
+          echo "spring.datasource.driver-class-name=org.postgresql.Driver" >> src/main/resources/application.properties
+
+      - name: Ejecutar Tests
+        run: mvn clean test
