@@ -110,7 +110,7 @@ public class PeliculaServiceTest {
         verify(peliculaPublisher, times(1)).sendPelicula(eq("DELETE"), any(Pelicula.class));
     }
 
- /*   @Test
+    @Test
     void testDeleteNotFound() {
         //Simula eliminar una película que no existe y espera una excepción.
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
@@ -118,5 +118,5 @@ public class PeliculaServiceTest {
         Exception exception = assertThrows(RuntimeException.class, () -> peliculaService.delete(1L));
 
         assertEquals("Id invalido", exception.getMessage());
-    }*/
+    }
 }
