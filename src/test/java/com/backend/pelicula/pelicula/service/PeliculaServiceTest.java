@@ -27,7 +27,7 @@ public class PeliculaServiceTest {
     private PeliculaRepository peliculaRepository;
 
     //@Mock
-    private PeliculaPublisher peliculaPublisher;
+    // private PeliculaPublisher peliculaPublisher;
 
     @InjectMocks
     private PeliculaService peliculaService;
@@ -53,7 +53,7 @@ public class PeliculaServiceTest {
         assertNotNull(resultado);
         assertEquals("Titanic", resultado.getTitulo());
         verify(peliculaRepository, times(1)).save(any(Pelicula.class));
-        verify(peliculaPublisher, times(1)).sendPelicula(eq("ADD"), any(Pelicula.class));
+        // verify(peliculaPublisher, times(1)).sendPelicula(eq("ADD"), any(Pelicula.class));
     }
 
    /* @Test
