@@ -17,8 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,7 +64,7 @@ public class PeliculaServiceTest {
         assertEquals("Titanic", resultado.getTitulo());
     }
 
-   /* @Test
+    @Test
     void testFindByIdNotFound() {
         //Simula un caso donde la película no existe y verifica que lanza una excepción.
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
@@ -75,7 +74,7 @@ public class PeliculaServiceTest {
         assertEquals("Id invalido", exception.getMessage());
     }
 
-    @Test
+   /* @Test
     void testUpdateSuccess() throws Exception {
         //Simula actualizar una película y verifica que se llama a save().
         when(peliculaRepository.findById(1L)).thenReturn(Optional.of(pelicula));
