@@ -18,8 +18,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PeliculaServiceTest {
@@ -27,7 +25,7 @@ public class PeliculaServiceTest {
     @Mock
     private PeliculaRepository peliculaRepository;
 
-    //@Mock
+    @Mock
     private PeliculaPublisher peliculaPublisher;
 
     @InjectMocks
@@ -47,14 +45,15 @@ public class PeliculaServiceTest {
     @Test
     void testSave() {
         //Simula guardar una película y verifica que el método save() es llamado correctamente.
-        when(peliculaRepository.save(any(Pelicula.class))).thenReturn(pelicula);
+        //when(peliculaRepository.save(any(Pelicula.class))).thenReturn(pelicula);
 
         PeliculaDTO resultado = peliculaService.save(peliculaDTO);
 
         assertNotNull(resultado);
+        //assertEquals(peliculaDTO, resultado);
         assertEquals("Titanic", resultado.getTitulo());
         //verify(peliculaRepository, times(1)).save(any(Pelicula.class));
-        // verify(peliculaPublisher, times(1)).sendPelicula(eq("ADD"), any(Pelicula.class));
+        //verify(peliculaPublisher, times(1)).sendPelicula(eq("ADD"), eq(pelicula));
     }
 
    /* @Test
