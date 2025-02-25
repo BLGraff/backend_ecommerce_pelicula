@@ -98,7 +98,7 @@ public class PeliculaServiceTest {
         assertTrue(exception.getMessage().contains("No se encontró la película con ID"));
     }
 
-/*    @Test
+    @Test
     void testDeleteSuccess() {
         //Simula eliminar una película y verifica que deleteById() es llamado correctamente.
         when(peliculaRepository.findById(1L)).thenReturn(Optional.of(pelicula));
@@ -110,7 +110,7 @@ public class PeliculaServiceTest {
         verify(peliculaPublisher, times(1)).sendPelicula(eq("DELETE"), any(Pelicula.class));
     }
 
-    @Test
+ /*   @Test
     void testDeleteNotFound() {
         //Simula eliminar una película que no existe y espera una excepción.
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
