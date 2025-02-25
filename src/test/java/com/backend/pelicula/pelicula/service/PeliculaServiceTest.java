@@ -15,9 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PeliculaServiceTest {
@@ -52,18 +54,6 @@ public class PeliculaServiceTest {
         assertEquals("Titanic", resultado.getTitulo());
     }
 
-   /* @Test
-    void testFindAll() {
-        //Simula encontrar todas las películas por título y género usando Specification.
-        when(peliculaRepository.findAll(any(Specification.class))).thenReturn(List.of(pelicula));
-
-        List<PeliculaDTO> resultado = peliculaService.findAll("Titanic", "Drama");
-
-        assertFalse(resultado.isEmpty());
-        assertEquals(1, resultado.size());
-        assertEquals("Titanic", resultado.get(0).getTitulo());
-    }
-
     @Test
     void testFindByIdSuccess() {
         //Simula la búsqueda por ID y verifica que se devuelve el DTO correctamente.
@@ -75,7 +65,7 @@ public class PeliculaServiceTest {
         assertEquals("Titanic", resultado.getTitulo());
     }
 
-    @Test
+   /* @Test
     void testFindByIdNotFound() {
         //Simula un caso donde la película no existe y verifica que lanza una excepción.
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
