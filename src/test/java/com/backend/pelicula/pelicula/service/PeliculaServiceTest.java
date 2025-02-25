@@ -45,15 +45,11 @@ public class PeliculaServiceTest {
     @Test
     void testSave() {
         //Simula guardar una película y verifica que el método save() es llamado correctamente.
-        //when(peliculaRepository.save(any(Pelicula.class))).thenReturn(pelicula);
-
         PeliculaDTO resultado = peliculaService.save(peliculaDTO);
 
         assertNotNull(resultado);
-        //assertEquals(peliculaDTO, resultado);
+        assertEquals(peliculaDTO, resultado);
         assertEquals("Titanic", resultado.getTitulo());
-        //verify(peliculaRepository, times(1)).save(any(Pelicula.class));
-        //verify(peliculaPublisher, times(1)).sendPelicula(eq("ADD"), eq(pelicula));
     }
 
    /* @Test
