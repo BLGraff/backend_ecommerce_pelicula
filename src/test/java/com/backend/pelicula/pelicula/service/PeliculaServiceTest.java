@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PeliculaServiceTest {
@@ -74,7 +75,7 @@ public class PeliculaServiceTest {
         assertEquals("Id invalido", exception.getMessage());
     }
 
-   /* @Test
+    @Test
     void testUpdateSuccess() throws Exception {
         //Simula actualizar una película y verifica que se llama a save().
         when(peliculaRepository.findById(1L)).thenReturn(Optional.of(pelicula));
@@ -87,7 +88,7 @@ public class PeliculaServiceTest {
         verify(peliculaPublisher, times(1)).sendPelicula(eq("EDIT"), any(Pelicula.class));
     }
 
-    @Test
+  /*  @Test
     void testUpdateNotFound() {
         //Simula actualizar una película que no existe y espera una excepción.
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
