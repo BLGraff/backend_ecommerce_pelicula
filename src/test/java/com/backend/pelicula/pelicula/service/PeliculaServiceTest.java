@@ -46,8 +46,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testSave() {
-        //Simula guardar una película y verifica que el metodo save() es llamado correctamente.
+    void testGuardarPelicula() {
         PeliculaDTO resultado = peliculaService.save(peliculaDTO);
 
         assertNotNull(resultado);
@@ -56,7 +55,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testFindAll() {
+    void testBuscarPeliculaPorTituloYGenero() {
         when(peliculaRepository.findAll(any(Specification.class))).thenReturn(List.of(pelicula));
 
         List<PeliculaDTO> resultado = peliculaService.findAll("Titanic", "Drama");
@@ -67,8 +66,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testFindByIdSuccess() {
-        //Simula la búsqueda por ID y verifica que se devuelve el DTO correctamente.
+    void testBuscarPeliculaPorId() {
         when(peliculaRepository.findById(1L)).thenReturn(Optional.of(pelicula));
 
         PeliculaDTO resultado = peliculaService.findById(1L);
@@ -78,8 +76,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testFindByIdNotFound() {
-        //Simula un caso donde la película no existe y verifica que lanza una excepción.
+    void testBuscarPeliculaQueNoExiste() {
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(RuntimeException.class, () -> peliculaService.findById(1L));
@@ -88,8 +85,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testUpdateSuccess() throws Exception {
-        //Simula actualizar una película y verifica que se llama a save().
+    void testActualizarPelicula() throws Exception {
         when(peliculaRepository.findById(1L)).thenReturn(Optional.of(pelicula));
         when(peliculaRepository.save(any(Pelicula.class))).thenReturn(pelicula);
 
@@ -101,8 +97,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testUpdateNotFound() {
-        //Simula actualizar una película que no existe y espera una excepción.
+    void testActualizarPeliculaQueNoExiste() {
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(Exception.class, () -> peliculaService.update(1L, peliculaDTO));
@@ -111,8 +106,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testDeleteSuccess() {
-        //Simula eliminar una película y verifica que deleteById() es llamado correctamente.
+    void testEliminarPelicula() {
         when(peliculaRepository.findById(1L)).thenReturn(Optional.of(pelicula));
         doNothing().when(peliculaRepository).deleteById(1L);
 
@@ -123,8 +117,7 @@ public class PeliculaServiceTest {
     }
 
     @Test
-    void testDeleteNotFound() {
-        //Simula eliminar una película que no existe y espera una excepción.
+    void testEliminarPeliculaQueNoExiste() {
         when(peliculaRepository.findById(1L)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(RuntimeException.class, () -> peliculaService.delete(1L));
