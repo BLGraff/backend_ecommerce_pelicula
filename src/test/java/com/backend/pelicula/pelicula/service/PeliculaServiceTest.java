@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,12 +47,23 @@ public class PeliculaServiceTest {
 
     @Test
     void testSave() {
-        //Simula guardar una película y verifica que el método save() es llamado correctamente.
+        //Simula guardar una película y verifica que el metodo save() es llamado correctamente.
         PeliculaDTO resultado = peliculaService.save(peliculaDTO);
 
         assertNotNull(resultado);
         assertEquals(peliculaDTO, resultado);
         assertEquals("Titanic", resultado.getTitulo());
+    }
+
+    @Test
+    void testFindAll() {
+        when(peliculaRepository.findAll(any(Specification.class))).thenReturn(List.of(pelicula));
+
+        List<PeliculaDTO> resultado = peliculaService.findAll("Titanic", "Drama");
+
+        assertFalse(resultado.isEmpty());
+        assertEquals(1, resultado.size());
+        assertEquals("Titanic", resultado.get(0).getTitulo());
     }
 
     @Test
