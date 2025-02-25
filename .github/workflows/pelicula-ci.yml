@@ -1,40 +1,16 @@
-name: TEST Pelicula - CI
+name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
   pull_request:
-    branches: [ main, develop ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: testdb
-        ports:
-          - 5432:5432
-
-      keycloak:
-        image: quay.io/keycloak/keycloak:26.0
-        env:
-          KEYCLOAK_ADMIN: admin
-          KEYCLOAK_ADMIN_PASSWORD: admin
-          DB_VENDOR: h2
-          KC_FEATURES: scripts
-          KC_HEALTH_ENABLED: true
-        ports:
-          - 8080:8080
-        options: >-
-          --health-cmd "curl --fail http://localhost:8080/realms/master" 
-          --health-interval 10s 
-          --health-timeout 5s 
-          --health-retries 5
 
     steps:
       - name: Checkout del código
@@ -46,20 +22,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Esperar a que PostgreSQL esté listo
-        run: sleep 10s
-
-      - name: Esperar a que Keycloak esté listo
-        run: sleep 20s  # Puedes ajustar este tiempo si Keycloak tarda más en levantar
-
-      - name: Configurar PostgreSQL en application.properties
-        run: |
-          echo "spring.datasource.url=jdbc:postgresql://localhost:5432/testdb" > src/main/resources/application.properties
-          echo "spring.datasource.username=user" >> src/main/resources/application.properties
-          echo "spring.datasource.password=password" >> src/main/resources/application.properties
-          echo "spring.datasource.driver-class-name=org.postgresql.Driver" >> src/main/resources/application.properties
-          echo "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/realms/YOUR_REALM/protocol/openid-connect/certs" >> src/main/resources/application.properties
-          echo "spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8080/realms/YOUR_REALM" >> src/main/resources/application.properties
-
-      - name: Ejecutar Tests
+      - name: Construir y Testear
         run: mvn clean test
+
+      - name: Compilar la aplicación
+        run: mvn clean package
