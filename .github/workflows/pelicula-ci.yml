@@ -2,9 +2,9 @@ name: TEST Pelicula - CI
 
 on:
   push:
-    branches: [ main, develop ]  # Se ejecuta en cada push a estas ramas
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop ]  # También en cada PR a estas ramas
+    branches: [ main, develop ]
 
 jobs:
   build:
@@ -20,6 +20,23 @@ jobs:
         ports:
           - 5432:5432
 
+      keycloak:
+        image: quay.io/keycloak/keycloak:latest
+        env:
+          KEYCLOAK_ADMIN: admin
+          KEYCLOAK_ADMIN_PASSWORD: admin
+          KC_DB: postgres
+          KC_DB_URL: jdbc:postgresql://localhost:5432/keycloak
+          KC_DB_USERNAME: keycloak
+          KC_DB_PASSWORD: password
+        ports:
+          - 8080:8080
+        options: >-
+          --health-cmd "curl --fail http://localhost:8080/realms/master" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+
     steps:
       - name: Checkout del código
         uses: actions/checkout@v3
@@ -33,12 +50,17 @@ jobs:
       - name: Esperar a que PostgreSQL esté listo
         run: sleep 10s
 
+      - name: Esperar a que Keycloak esté listo
+        run: sleep 20s  # Puedes ajustar este tiempo si Keycloak tarda más en levantar
+
       - name: Configurar PostgreSQL en application.properties
         run: |
           echo "spring.datasource.url=jdbc:postgresql://localhost:5432/testdb" > src/main/resources/application.properties
           echo "spring.datasource.username=user" >> src/main/resources/application.properties
           echo "spring.datasource.password=password" >> src/main/resources/application.properties
           echo "spring.datasource.driver-class-name=org.postgresql.Driver" >> src/main/resources/application.properties
+          echo "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/realms/YOUR_REALM/protocol/openid-connect/certs" >> src/main/resources/application.properties
+          echo "spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8080/realms/YOUR_REALM" >> src/main/resources/application.properties
 
       - name: Ejecutar Tests
         run: mvn clean test
