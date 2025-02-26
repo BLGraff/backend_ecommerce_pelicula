@@ -10,8 +10,6 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -27,11 +25,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity // Habilita el uso de @PreAuthorize y @PostAuthorize
 class SecurityConfiguration {
 
-    @Bean
+   /* @Bean
     public JwtDecoder jwtDecoder() {
         String jwkSetUri = "https://your-auth-server/.well-known/jwks.json"; // Reemplázalo con la URL correcta de tu proveedor de autenticación
         return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
-    }
+    }*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
